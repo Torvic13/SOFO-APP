@@ -57,10 +57,10 @@ class _ArrivalScreenState extends State<ArrivalScreen> {
               Align(
                 alignment: Alignment.centerRight,
                 child: IconButton(
-                    onPressed: () {},
-                    tooltip: 'Configuración',
-                    icon: const Icon(Icons.settings, color: Colors.white),
-                  ),
+                  onPressed: () {},
+                  tooltip: 'Configuración',
+                  icon: const Icon(Icons.settings, color: Colors.white),
+                ),
               ),
               const Spacer(flex: 2),
               Container(
@@ -85,7 +85,7 @@ class _ArrivalScreenState extends State<ArrivalScreen> {
               ),
               const SizedBox(height: 14),
               const Text(
-                'PARADERO AVIACIÓN',
+                'PARADERO SAN LUIS',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: _green,

@@ -37,6 +37,15 @@ async function main() {
     throw new Error('La ubicación consultada no coincide con la enviada');
   }
 
+  const activeBus = await request(app).get('/api/corridors/201/active-bus');
+  assertStatus('consultar corredor activo', activeBus.status, 200);
+  if (
+    activeBus.body.bus?.unitId !== unitId ||
+    activeBus.body.bus?.location?.routeStop?.name !== 'La Positiva'
+  ) {
+    throw new Error('El corredor activo no devolvió la ubicación esperada');
+  }
+
   const finish = await request(app).post(`/api/trips/${tripId}/finish`);
   assertStatus('finalizar recorrido', finish.status, 200);
   if (finish.body.trip?.status !== 'finished') {

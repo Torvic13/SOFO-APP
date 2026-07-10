@@ -24,6 +24,13 @@ describe('SOFO Driver API', () => {
       .get('/api/buses/bus-201-01/location')
       .expect(200);
     expect(current.body.location.latitude).toBe(-12.091378);
+    expect(current.body.location.routeStop.name).toBe('La Positiva');
+
+    const activeBus = await request(app)
+      .get('/api/corridors/201/active-bus')
+      .expect(200);
+    expect(activeBus.body.bus.unitId).toBe('bus-201-01');
+    expect(activeBus.body.bus.location.routeStop.index).toBe(0);
 
     const finish = await request(app)
       .post(`/api/trips/${tripId}/finish`)

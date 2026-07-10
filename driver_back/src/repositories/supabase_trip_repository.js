@@ -70,6 +70,23 @@ export class SupabaseTripRepository {
     return data ? mapLocation(data) : null;
   }
 
+  async getActiveBusByCorridor(corridor) {
+    const { data: tripRow, error: tripError } = await this.client
+      .from('trips')
+      .select('*')
+      .eq('corridor', corridor)
+      .eq('status', 'active')
+      .order('started_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (tripError) throw tripError;
+    if (!tripRow) return null;
+
+    const trip = mapTrip(tripRow);
+    const location = await this.getCurrentLocation(trip.unitId);
+    return { trip, location };
+  }
+
   async finishTrip(tripId) {
     const { data, error } = await this.client
       .from('trips')

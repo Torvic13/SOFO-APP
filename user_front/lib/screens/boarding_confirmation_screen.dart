@@ -13,8 +13,7 @@ class BoardingConfirmationScreen extends StatefulWidget {
       _BoardingConfirmationScreenState();
 }
 
-class _BoardingConfirmationScreenState
-    extends State<BoardingConfirmationScreen>
+class _BoardingConfirmationScreenState extends State<BoardingConfirmationScreen>
     with SingleTickerProviderStateMixin {
   static const _navy = Color(0xFF071426);
   static const _yellow = Color(0xFFFFD21F);
@@ -32,10 +31,7 @@ class _BoardingConfirmationScreenState
       duration: const Duration(milliseconds: 1100),
     )..repeat(reverse: true);
     _scaleAnimation = Tween<double>(begin: .96, end: 1.04).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOut,
-      ),
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_secondsRemaining > 1) {
@@ -63,9 +59,7 @@ class _BoardingConfirmationScreenState
   void _searchAnotherCorridor() {
     if (!mounted) return;
     Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute<void>(
-        builder: (_) => const AssignedCorridorScreen(),
-      ),
+      MaterialPageRoute<void>(builder: (_) => const AssignedCorridorScreen()),
       (route) => route.isFirst,
     );
   }
@@ -122,13 +116,14 @@ class _BoardingConfirmationScreenState
                               boxShadow: [
                                 BoxShadow(
                                   color: _yellow.withValues(
-                                    alpha: .22 +
+                                    alpha:
+                                        .22 +
                                         (_animationController.value * .18),
                                   ),
-                                  blurRadius: 20 +
-                                      (_animationController.value * 16),
-                                  spreadRadius: 2 +
-                                      (_animationController.value * 6),
+                                  blurRadius:
+                                      20 + (_animationController.value * 16),
+                                  spreadRadius:
+                                      2 + (_animationController.value * 6),
                                 ),
                               ],
                             ),
@@ -167,8 +162,7 @@ class _BoardingConfirmationScreenState
                 bottom: 8,
                 child: Semantics(
                   liveRegion: true,
-                  label:
-                      'Tiempo para confirmar: $_secondsRemaining segundos',
+                  label: 'Tiempo para confirmar: $_secondsRemaining segundos',
                   child: Column(
                     children: [
                       const Text(

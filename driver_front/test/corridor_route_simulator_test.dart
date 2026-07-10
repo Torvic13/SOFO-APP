@@ -2,12 +2,12 @@ import 'package:driver_front/simulation/corridor_route_simulator.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('recorre progresivamente todos los paraderos hasta Aviación', () {
+  test('recorre progresivamente todos los paraderos hasta San Luis', () {
     final route = SimulatedCorridorRoute(stepsPerSegment: 2);
 
     expect(route.position.latitude, -12.091378);
     expect(route.position.longitude, -77.026176);
-    expect(route.nextStopName, 'Guardia Civil');
+    expect(route.nextStopName, 'Ricardo Palma');
     expect(route.isAtStop, isTrue);
 
     final intermediate = route.advance();
@@ -16,18 +16,18 @@ void main() {
     expect(route.isAtStop, isFalse);
 
     route.advance();
-    expect(route.currentStopName, 'La Positiva (inicio)');
+    expect(route.currentStopName, 'Ricardo Palma');
     expect(route.nextStopName, 'Guardia Civil');
-    expect(route.isAtStop, isFalse);
+    expect(route.isAtStop, isTrue);
 
-    for (var index = 0; index < 4; index++) {
+    for (var index = 0; index < 6; index++) {
       route.advance();
     }
 
     expect(route.isComplete, isTrue);
-    expect(route.position.name, 'Aviación');
-    expect(route.position.latitude, -12.088480);
-    expect(route.position.longitude, -77.004552);
+    expect(route.position.name, 'San Luis');
+    expect(route.position.latitude, -12.087383);
+    expect(route.position.longitude, -76.996908);
     expect(route.nextStopName, isNull);
   });
 }

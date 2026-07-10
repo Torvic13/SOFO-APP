@@ -6,13 +6,11 @@ class AssignedCorridorScreen extends StatefulWidget {
   const AssignedCorridorScreen({super.key});
 
   @override
-  State<AssignedCorridorScreen> createState() =>
-      _AssignedCorridorScreenState();
+  State<AssignedCorridorScreen> createState() => _AssignedCorridorScreenState();
 }
 
 class _AssignedCorridorScreenState extends State<AssignedCorridorScreen>
     with SingleTickerProviderStateMixin {
-
   static const _navy = Color(0xFF071426);
   static const _yellow = Color(0xFFFFD21F);
 
@@ -27,18 +25,13 @@ class _AssignedCorridorScreenState extends State<AssignedCorridorScreen>
       duration: const Duration(milliseconds: 1100),
     )..repeat(reverse: true);
     _scaleAnimation = Tween<double>(begin: .96, end: 1.04).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOut,
-      ),
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
   }
 
   void _confirmCorridor() {
     Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) => const CorridorTrackingScreen(),
-      ),
+      MaterialPageRoute<void>(builder: (_) => const CorridorTrackingScreen()),
     );
   }
 
@@ -77,7 +70,7 @@ class _AssignedCorridorScreenState extends State<AssignedCorridorScreen>
                     ),
                     SizedBox(height: 8),
                     Text(
-                      'PARADERO AVIACIÓN',
+                      'PARADERO SAN LUIS',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: _yellow,
@@ -119,13 +112,14 @@ class _AssignedCorridorScreenState extends State<AssignedCorridorScreen>
                               boxShadow: [
                                 BoxShadow(
                                   color: _yellow.withValues(
-                                    alpha: .22 +
+                                    alpha:
+                                        .22 +
                                         (_animationController.value * .18),
                                   ),
-                                  blurRadius: 20 +
-                                      (_animationController.value * 16),
-                                  spreadRadius: 2 +
-                                      (_animationController.value * 6),
+                                  blurRadius:
+                                      20 + (_animationController.value * 16),
+                                  spreadRadius:
+                                      2 + (_animationController.value * 6),
                                 ),
                               ],
                             ),

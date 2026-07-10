@@ -38,6 +38,7 @@ automáticamente.
 - `POST /api/trips/:tripId/location`
 - `POST /api/trips/:tripId/finish`
 - `GET /api/buses/:unitId/location`
+- `GET /api/corridors/:corridor/active-bus`
 
 Ejemplo para iniciar:
 

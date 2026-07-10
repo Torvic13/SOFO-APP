@@ -6,13 +6,11 @@ class VoiceDestinationScreen extends StatefulWidget {
   const VoiceDestinationScreen({super.key});
 
   @override
-  State<VoiceDestinationScreen> createState() =>
-      _VoiceDestinationScreenState();
+  State<VoiceDestinationScreen> createState() => _VoiceDestinationScreenState();
 }
 
 class _VoiceDestinationScreenState extends State<VoiceDestinationScreen>
     with SingleTickerProviderStateMixin {
-
   static const _navy = Color(0xFF071426);
 
   late final AnimationController _animationController;
@@ -26,10 +24,7 @@ class _VoiceDestinationScreenState extends State<VoiceDestinationScreen>
       duration: const Duration(milliseconds: 1100),
     )..repeat(reverse: true);
     _scaleAnimation = Tween<double>(begin: .96, end: 1.04).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOut,
-      ),
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
   }
 
@@ -58,9 +53,9 @@ class _VoiceDestinationScreenState extends State<VoiceDestinationScreen>
                 top: 0,
                 left: 0,
                 child: IconButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
-                  ),
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(Icons.arrow_back, color: Colors.white),
+                ),
               ),
               const Positioned(
                 top: 70,
@@ -81,43 +76,43 @@ class _VoiceDestinationScreenState extends State<VoiceDestinationScreen>
                 child: ScaleTransition(
                   scale: _scaleAnimation,
                   child: InkResponse(
-                  onTap: () => _openDestination(context),
-                  radius: 145,
-                  child: AnimatedBuilder(
-                    animation: _animationController,
-                    builder: (context, child) {
-                      return Container(
-                        width: 275,
-                        height: 275,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: const Color(0xFF0B1C35),
-                          border: Border.all(
-                            color: const Color(0xFF51BFFF),
-                            width: 2,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xFF47B8FF).withValues(
-                                alpha: .25 +
-                                    (_animationController.value * .25),
-                              ),
-                              blurRadius: 20 +
-                                  (_animationController.value * 18),
-                              spreadRadius: 3 +
-                                  (_animationController.value * 7),
+                    onTap: () => _openDestination(context),
+                    radius: 145,
+                    child: AnimatedBuilder(
+                      animation: _animationController,
+                      builder: (context, child) {
+                        return Container(
+                          width: 275,
+                          height: 275,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: const Color(0xFF0B1C35),
+                            border: Border.all(
+                              color: const Color(0xFF51BFFF),
+                              width: 2,
                             ),
-                          ],
-                        ),
-                        child: child,
-                      );
-                    },
-                    child: const Icon(
-                      Icons.mic,
-                      color: Colors.white,
-                      size: 120,
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFF47B8FF).withValues(
+                                  alpha:
+                                      .25 + (_animationController.value * .25),
+                                ),
+                                blurRadius:
+                                    20 + (_animationController.value * 18),
+                                spreadRadius:
+                                    3 + (_animationController.value * 7),
+                              ),
+                            ],
+                          ),
+                          child: child,
+                        );
+                      },
+                      child: const Icon(
+                        Icons.mic,
+                        color: Colors.white,
+                        size: 120,
+                      ),
                     ),
-                  ),
                   ),
                 ),
               ),
@@ -129,10 +124,7 @@ class _VoiceDestinationScreenState extends State<VoiceDestinationScreen>
                   children: [
                     const Text(
                       'Escuchando...',
-                      style: TextStyle(
-                        color: Color(0xFF48B8FF),
-                        fontSize: 17,
-                      ),
+                      style: TextStyle(color: Color(0xFF48B8FF), fontSize: 17),
                     ),
                     const SizedBox(height: 18),
                     const Text(

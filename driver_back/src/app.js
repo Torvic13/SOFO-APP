@@ -1,6 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 
+import { enrichLocation } from './domain/corridor_route.js';
 import { parseLocation } from './validation/location.js';
 
 export function createApp(repository, io) {
@@ -46,7 +47,7 @@ export function createApp(repository, io) {
         return;
       }
 
-      const location = await repository.saveLocation(trip, input);
+      const location = enrichLocation(await repository.saveLocation(trip, input));
       io?.to(`corridor:${trip.corridor}`).emit('bus:location-updated', location);
       response.status(201).json({ location });
     } catch (error) {
@@ -61,7 +62,30 @@ export function createApp(repository, io) {
         response.status(404).json({ error: 'Ubicación no encontrada' });
         return;
       }
-      response.json({ location });
+      response.json({ location: enrichLocation(location) });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.get('/api/corridors/:corridor/active-bus', async (request, response, next) => {
+    try {
+      const activeBus = await repository.getActiveBusByCorridor(
+        request.params.corridor,
+      );
+      if (!activeBus) {
+        response.status(404).json({ error: 'No hay un corredor activo' });
+        return;
+      }
+      response.json({
+        bus: {
+          unitId: activeBus.trip.unitId,
+          corridor: activeBus.trip.corridor,
+          tripId: activeBus.trip.id,
+          status: activeBus.trip.status,
+          location: enrichLocation(activeBus.location),
+        },
+      });
     } catch (error) {
       next(error);
     }

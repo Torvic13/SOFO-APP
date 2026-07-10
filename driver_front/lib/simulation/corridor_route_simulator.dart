@@ -23,10 +23,9 @@ class SimulatedCorridorRoute {
       longitude: -77.026176,
     ),
     RoutePoint(
-      name: 'Punto de ruta',
+      name: 'Ricardo Palma',
       latitude: -12.090196,
       longitude: -77.017311,
-      isStop: false,
     ),
     RoutePoint(
       name: 'Guardia Civil',
@@ -34,6 +33,7 @@ class SimulatedCorridorRoute {
       longitude: -77.008042,
     ),
     RoutePoint(name: 'Aviación', latitude: -12.088480, longitude: -77.004552),
+    RoutePoint(name: 'San Luis', latitude: -12.087383, longitude: -76.996908),
   ];
 
   final int stepsPerSegment;

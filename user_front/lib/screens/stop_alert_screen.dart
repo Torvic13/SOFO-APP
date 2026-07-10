@@ -1,12 +1,53 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
+import '../services/corridor_tracking_service.dart';
 import 'arrival_screen.dart';
 
-class StopAlertScreen extends StatelessWidget {
+class StopAlertScreen extends StatefulWidget {
   const StopAlertScreen({super.key});
 
+  @override
+  State<StopAlertScreen> createState() => _StopAlertScreenState();
+}
+
+class _StopAlertScreenState extends State<StopAlertScreen> {
   static const _navy = Color(0xFF071426);
   static const _yellow = Color(0xFFFFD21F);
+  static const _destinationStopIndex = 4;
+
+  late final CorridorTrackingService _trackingService;
+  StreamSubscription<BusLocation>? _locationSubscription;
+  bool _arrivalOpened = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _trackingService = CorridorTrackingService();
+    _locationSubscription = _trackingService.locations.listen((location) {
+      final stopIndex = location.stop?.index;
+      if (stopIndex != null && stopIndex >= _destinationStopIndex) {
+        _showArrival();
+      }
+    });
+    unawaited(_trackingService.start());
+  }
+
+  void _showArrival() {
+    if (!mounted || _arrivalOpened) return;
+    _arrivalOpened = true;
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute<void>(builder: (_) => const ArrivalScreen()),
+    );
+  }
+
+  @override
+  void dispose() {
+    _locationSubscription?.cancel();
+    _trackingService.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,22 +60,14 @@ class StopAlertScreen extends StatelessWidget {
             children: [
               const _TopControls(),
               const Spacer(flex: 2),
-              InkResponse(
-                onTap: () => _showArrival(context),
-                radius: 76,
-                child: Container(
-                  width: 145,
-                  height: 145,
-                  decoration: const BoxDecoration(
-                    color: _yellow,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.notifications,
-                    color: _navy,
-                    size: 82,
-                  ),
+              Container(
+                width: 145,
+                height: 145,
+                decoration: const BoxDecoration(
+                  color: _yellow,
+                  shape: BoxShape.circle,
                 ),
+                child: const Icon(Icons.notifications, color: _navy, size: 82),
               ),
               const SizedBox(height: 28),
               const Text(
@@ -47,7 +80,7 @@ class StopAlertScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               const Text(
-                'Estás a 1 paradero de tu\ndestino: PARADERO AVIACIÓN',
+                'Estás a 1 paradero de tu\ndestino: PARADERO SAN LUIS',
                 textAlign: TextAlign.center,
                 style: _bodyStyle,
               ),
@@ -58,27 +91,17 @@ class StopAlertScreen extends StatelessWidget {
                 style: _bodyStyle,
               ),
               const Spacer(flex: 3),
-              SizedBox(
-                width: double.infinity,
-                height: 54,
-                child: TextButton(
-                  onPressed: () => _showArrival(context),
-                  child: const Text(
-                    'SIMULAR LLEGADA',
-                    style: TextStyle(color: Colors.white54),
-                  ),
+              Semantics(
+                liveRegion: true,
+                child: const Text(
+                  'Monitoreando llegada a San Luis...',
+                  style: TextStyle(color: Colors.white54),
                 ),
               ),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  void _showArrival(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute<void>(builder: (_) => const ArrivalScreen()),
     );
   }
 }
@@ -91,10 +114,10 @@ class _TopControls extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: IconButton(
-          onPressed: () {},
-          tooltip: 'Configuración',
-          icon: const Icon(Icons.settings, color: Colors.white),
-        ),
+        onPressed: () {},
+        tooltip: 'Configuración',
+        icon: const Icon(Icons.settings, color: Colors.white),
+      ),
     );
   }
 }

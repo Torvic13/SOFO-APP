@@ -1,4 +1,5 @@
 import { parseLocation } from './validation/location.js';
+import { enrichLocation } from './domain/corridor_route.js';
 
 export function configureSockets(io, repository) {
   io.on('connection', (socket) => {
@@ -19,7 +20,9 @@ export function configureSockets(io, repository) {
           return;
         }
 
-        const location = await repository.saveLocation(trip, locationInput);
+        const location = enrichLocation(
+          await repository.saveLocation(trip, locationInput),
+        );
         io.to(`corridor:${trip.corridor}`).emit(
           'bus:location-updated',
           location,

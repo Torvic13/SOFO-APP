@@ -46,6 +46,18 @@ export class MemoryTripRepository {
     return this.currentLocations.get(unitId) ?? null;
   }
 
+  async getActiveBusByCorridor(corridor) {
+    const trip = [...this.trips.values()].find(
+      (candidate) =>
+        candidate.corridor === corridor && candidate.status === 'active',
+    );
+    if (!trip) return null;
+    return {
+      trip,
+      location: this.currentLocations.get(trip.unitId) ?? null,
+    };
+  }
+
   async finishTrip(tripId) {
     const trip = this.trips.get(tripId);
     if (!trip) return null;
